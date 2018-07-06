@@ -5,10 +5,10 @@ package v1
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/openstack/clustering/v1/webhooks"
+	"github.com/chjlangzi/gophercloud/acceptance/clients"
+	"github.com/chjlangzi/gophercloud/openstack/clustering/v1/webhooks"
 
-	th "github.com/gophercloud/gophercloud/testhelper"
+	th "github.com/chjlangzi/gophercloud/testhelper"
 )
 
 func TestClusteringWebhookTrigger(t *testing.T) {

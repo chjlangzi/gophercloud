@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/chjlangzi/gophercloud"
+	"github.com/chjlangzi/gophercloud/openstack"
+	th "github.com/chjlangzi/gophercloud/testhelper"
 )
 
 var template = fmt.Sprintf(`

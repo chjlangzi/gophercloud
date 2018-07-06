@@ -7,10 +7,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/usage"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/chjlangzi/gophercloud/acceptance/clients"
+	"github.com/chjlangzi/gophercloud/acceptance/tools"
+	"github.com/chjlangzi/gophercloud/openstack/compute/v2/extensions/usage"
+	th "github.com/chjlangzi/gophercloud/testhelper"
 )
 
 func TestUsageSingleTenant(t *testing.T) {

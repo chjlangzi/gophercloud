@@ -3,10 +3,10 @@ package v1
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/openstack/container/v1/capsules"
-	"github.com/gophercloud/gophercloud/pagination"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/chjlangzi/gophercloud/acceptance/clients"
+	"github.com/chjlangzi/gophercloud/openstack/container/v1/capsules"
+	"github.com/chjlangzi/gophercloud/pagination"
+	th "github.com/chjlangzi/gophercloud/testhelper"
 )
 
 func TestCapsule(t *testing.T) {

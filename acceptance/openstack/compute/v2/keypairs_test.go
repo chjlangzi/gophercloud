@@ -7,11 +7,11 @@ import (
 
 	"golang.org/x/crypto/ssh"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/keypairs"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/chjlangzi/gophercloud/acceptance/clients"
+	"github.com/chjlangzi/gophercloud/acceptance/tools"
+	"github.com/chjlangzi/gophercloud/openstack/compute/v2/extensions/keypairs"
+	"github.com/chjlangzi/gophercloud/openstack/compute/v2/servers"
+	th "github.com/chjlangzi/gophercloud/testhelper"
 )
 
 const keyName = "gophercloud_test_key_pair"

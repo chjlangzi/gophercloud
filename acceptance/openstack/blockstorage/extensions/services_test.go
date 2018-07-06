@@ -5,9 +5,9 @@ package extensions
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/blockstorage/extensions/services"
+	"github.com/chjlangzi/gophercloud/acceptance/clients"
+	"github.com/chjlangzi/gophercloud/acceptance/tools"
+	"github.com/chjlangzi/gophercloud/openstack/blockstorage/extensions/services"
 )
 
 func TestServicesList(t *testing.T) {

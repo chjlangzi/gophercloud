@@ -3,8 +3,8 @@ package nodes
 import (
 	"net/http"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/chjlangzi/gophercloud"
+	"github.com/chjlangzi/gophercloud/pagination"
 )
 
 // CreateOptsBuilder allows extensions to add additional parameters to the

@@ -3,7 +3,7 @@ package images
 import (
 	"net/url"
 
-	"github.com/gophercloud/gophercloud"
+	"github.com/chjlangzi/gophercloud"
 )
 
 // `listURL` is a pure function. `listURL(c)` is a URL for which a GET

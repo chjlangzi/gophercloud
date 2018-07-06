@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/internal"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/chjlangzi/gophercloud"
+	"github.com/chjlangzi/gophercloud/internal"
+	"github.com/chjlangzi/gophercloud/pagination"
 )
 
 // User represents a User in the OpenStack Identity Service.

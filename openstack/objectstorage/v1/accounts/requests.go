@@ -1,6 +1,6 @@
 package accounts
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/chjlangzi/gophercloud"
 
 // GetOptsBuilder allows extensions to add additional headers to the Get
 // request.

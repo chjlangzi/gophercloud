@@ -5,13 +5,13 @@ package lbaas_v2
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	networking "github.com/gophercloud/gophercloud/acceptance/openstack/networking/v2"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas_v2/listeners"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas_v2/loadbalancers"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas_v2/monitors"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas_v2/pools"
+	"github.com/chjlangzi/gophercloud/acceptance/clients"
+	networking "github.com/chjlangzi/gophercloud/acceptance/openstack/networking/v2"
+	"github.com/chjlangzi/gophercloud/acceptance/tools"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/extensions/lbaas_v2/listeners"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/extensions/lbaas_v2/loadbalancers"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/extensions/lbaas_v2/monitors"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/extensions/lbaas_v2/pools"
 )
 
 func TestLoadbalancersList(t *testing.T) {

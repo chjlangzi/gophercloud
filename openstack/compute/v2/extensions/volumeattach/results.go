@@ -1,8 +1,8 @@
 package volumeattach
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/chjlangzi/gophercloud"
+	"github.com/chjlangzi/gophercloud/pagination"
 )
 
 // VolumeAttachment contains attachment information between a volume

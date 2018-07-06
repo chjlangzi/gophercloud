@@ -5,10 +5,10 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/identity/v3/groups"
-	"github.com/gophercloud/gophercloud/openstack/identity/v3/projects"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/chjlangzi/gophercloud"
+	"github.com/chjlangzi/gophercloud/openstack/identity/v3/groups"
+	"github.com/chjlangzi/gophercloud/openstack/identity/v3/projects"
+	"github.com/chjlangzi/gophercloud/pagination"
 )
 
 // Option is a specific option defined at the API to enable features

@@ -3,7 +3,7 @@ package claims
 import (
 	"net/http"
 
-	"github.com/gophercloud/gophercloud"
+	"github.com/chjlangzi/gophercloud"
 )
 
 // CreateOptsBuilder Builder.

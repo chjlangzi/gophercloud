@@ -1,8 +1,8 @@
 package domains
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/chjlangzi/gophercloud"
+	"github.com/chjlangzi/gophercloud/pagination"
 )
 
 // A Domain is a collection of projects, users, and roles.

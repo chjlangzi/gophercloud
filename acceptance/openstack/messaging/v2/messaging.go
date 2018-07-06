@@ -4,12 +4,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/messaging/v2/claims"
-	"github.com/gophercloud/gophercloud/openstack/messaging/v2/messages"
-	"github.com/gophercloud/gophercloud/openstack/messaging/v2/queues"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/chjlangzi/gophercloud"
+	"github.com/chjlangzi/gophercloud/acceptance/tools"
+	"github.com/chjlangzi/gophercloud/openstack/messaging/v2/claims"
+	"github.com/chjlangzi/gophercloud/openstack/messaging/v2/messages"
+	"github.com/chjlangzi/gophercloud/openstack/messaging/v2/queues"
+	"github.com/chjlangzi/gophercloud/pagination"
 )
 
 func CreateQueue(t *testing.T, client *gophercloud.ServiceClient) (string, error) {

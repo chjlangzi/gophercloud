@@ -1,7 +1,7 @@
 package volumeactions
 
 import (
-	"github.com/gophercloud/gophercloud"
+	"github.com/chjlangzi/gophercloud"
 )
 
 // AttachOptsBuilder allows extensions to add additional parameters to the

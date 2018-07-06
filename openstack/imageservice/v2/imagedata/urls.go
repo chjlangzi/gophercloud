@@ -1,6 +1,6 @@
 package imagedata
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/chjlangzi/gophercloud"
 
 // `imageDataURL(c,i)` is the URL for the binary image data for the
 // image identified by ID `i` in the service `c`.

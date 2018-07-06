@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/extradhcpopts"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/portsecurity"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/networks"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/ports"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/subnets"
+	"github.com/chjlangzi/gophercloud"
+	"github.com/chjlangzi/gophercloud/acceptance/tools"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/extensions/extradhcpopts"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/extensions/portsecurity"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/networks"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/ports"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/subnets"
 )
 
 // CreateNetwork will create basic network. An error will be returned if the

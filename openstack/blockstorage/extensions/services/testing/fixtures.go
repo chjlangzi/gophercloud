@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophercloud/gophercloud/openstack/blockstorage/extensions/services"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	"github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/chjlangzi/gophercloud/openstack/blockstorage/extensions/services"
+	th "github.com/chjlangzi/gophercloud/testhelper"
+	"github.com/chjlangzi/gophercloud/testhelper/client"
 )
 
 // ServiceListBody is sample response to the List call

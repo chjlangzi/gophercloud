@@ -3,10 +3,10 @@ package testing
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/openstack/identity/v3/groups"
-	"github.com/gophercloud/gophercloud/pagination"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	"github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/chjlangzi/gophercloud/openstack/identity/v3/groups"
+	"github.com/chjlangzi/gophercloud/pagination"
+	th "github.com/chjlangzi/gophercloud/testhelper"
+	"github.com/chjlangzi/gophercloud/testhelper/client"
 )
 
 func TestListGroups(t *testing.T) {

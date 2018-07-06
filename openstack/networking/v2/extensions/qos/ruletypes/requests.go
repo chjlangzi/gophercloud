@@ -1,8 +1,8 @@
 package ruletypes
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/chjlangzi/gophercloud"
+	"github.com/chjlangzi/gophercloud/pagination"
 )
 
 // ListRuleTypes returns the list of rule types from the server

@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/gophercloud/gophercloud"
-	tokens2 "github.com/gophercloud/gophercloud/openstack/identity/v2/tokens"
-	tokens3 "github.com/gophercloud/gophercloud/openstack/identity/v3/tokens"
-	"github.com/gophercloud/gophercloud/openstack/utils"
+	"github.com/chjlangzi/gophercloud"
+	tokens2 "github.com/chjlangzi/gophercloud/openstack/identity/v2/tokens"
+	tokens3 "github.com/chjlangzi/gophercloud/openstack/identity/v3/tokens"
+	"github.com/chjlangzi/gophercloud/openstack/utils"
 )
 
 const (

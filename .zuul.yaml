@@ -60,7 +60,7 @@
     nodeset: ubuntu-trusty
 
 - project:
-    name: gophercloud/gophercloud
+    name: chjlangzi/gophercloud
     check:
       jobs:
         - gophercloud-unittest

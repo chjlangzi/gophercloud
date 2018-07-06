@@ -7,9 +7,9 @@ import (
 
 	"encoding/json"
 
-	"github.com/gophercloud/gophercloud/openstack/clustering/v1/webhooks"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	fake "github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/chjlangzi/gophercloud/openstack/clustering/v1/webhooks"
+	th "github.com/chjlangzi/gophercloud/testhelper"
+	fake "github.com/chjlangzi/gophercloud/testhelper/client"
 )
 
 func TestWebhookTrigger(t *testing.T) {

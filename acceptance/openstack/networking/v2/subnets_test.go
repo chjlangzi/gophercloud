@@ -7,10 +7,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	subnetpools "github.com/gophercloud/gophercloud/acceptance/openstack/networking/v2/extensions/subnetpools"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/subnets"
+	"github.com/chjlangzi/gophercloud/acceptance/clients"
+	subnetpools "github.com/chjlangzi/gophercloud/acceptance/openstack/networking/v2/extensions/subnetpools"
+	"github.com/chjlangzi/gophercloud/acceptance/tools"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/subnets"
 )
 
 func TestSubnetsList(t *testing.T) {

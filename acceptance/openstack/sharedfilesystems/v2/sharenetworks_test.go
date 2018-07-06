@@ -3,10 +3,10 @@ package v2
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/openstack/sharedfilesystems/v2/sharenetworks"
-	"github.com/gophercloud/gophercloud/pagination"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/chjlangzi/gophercloud/acceptance/clients"
+	"github.com/chjlangzi/gophercloud/openstack/sharedfilesystems/v2/sharenetworks"
+	"github.com/chjlangzi/gophercloud/pagination"
+	th "github.com/chjlangzi/gophercloud/testhelper"
 )
 
 func TestShareNetworkCreateDestroy(t *testing.T) {

@@ -5,13 +5,13 @@ package vpnaas
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	networks "github.com/gophercloud/gophercloud/acceptance/openstack/networking/v2"
-	layer3 "github.com/gophercloud/gophercloud/acceptance/openstack/networking/v2/extensions/layer3"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/layer3/routers"
+	"github.com/chjlangzi/gophercloud/acceptance/clients"
+	networks "github.com/chjlangzi/gophercloud/acceptance/openstack/networking/v2"
+	layer3 "github.com/chjlangzi/gophercloud/acceptance/openstack/networking/v2/extensions/layer3"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/extensions/layer3/routers"
 
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/vpnaas/siteconnections"
+	"github.com/chjlangzi/gophercloud/acceptance/tools"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/extensions/vpnaas/siteconnections"
 )
 
 func TestConnectionList(t *testing.T) {

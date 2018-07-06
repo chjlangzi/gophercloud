@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"testing"
 
-	th "github.com/gophercloud/gophercloud/testhelper"
-	fakeclient "github.com/gophercloud/gophercloud/testhelper/client"
+	th "github.com/chjlangzi/gophercloud/testhelper"
+	fakeclient "github.com/chjlangzi/gophercloud/testhelper/client"
 )
 
 // HandleCreateImageMemberSuccessfully setup

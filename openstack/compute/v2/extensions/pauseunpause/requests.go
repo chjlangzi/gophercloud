@@ -1,6 +1,6 @@
 package pauseunpause
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/chjlangzi/gophercloud"
 
 func actionURL(client *gophercloud.ServiceClient, id string) string {
 	return client.ServiceURL("servers", id, "action")

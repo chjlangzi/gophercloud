@@ -1,6 +1,6 @@
 package shares
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/chjlangzi/gophercloud"
 
 // CreateOptsBuilder allows extensions to add additional parameters to the
 // Create request.

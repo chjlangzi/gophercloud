@@ -4,11 +4,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/container/v1/capsules"
-	"github.com/gophercloud/gophercloud/pagination"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	fakeclient "github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/chjlangzi/gophercloud"
+	"github.com/chjlangzi/gophercloud/openstack/container/v1/capsules"
+	"github.com/chjlangzi/gophercloud/pagination"
+	th "github.com/chjlangzi/gophercloud/testhelper"
+	fakeclient "github.com/chjlangzi/gophercloud/testhelper/client"
 )
 
 func TestGetCapsule_OldTime(t *testing.T) {

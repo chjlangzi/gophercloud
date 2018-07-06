@@ -3,9 +3,9 @@ package testing
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/bootfromvolume"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/chjlangzi/gophercloud/openstack/compute/v2/extensions/bootfromvolume"
+	"github.com/chjlangzi/gophercloud/openstack/compute/v2/servers"
+	th "github.com/chjlangzi/gophercloud/testhelper"
 )
 
 func TestBootFromNewVolume(t *testing.T) {

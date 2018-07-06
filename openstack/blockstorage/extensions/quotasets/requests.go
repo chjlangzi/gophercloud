@@ -3,7 +3,7 @@ package quotasets
 import (
 	"fmt"
 
-	"github.com/gophercloud/gophercloud"
+	"github.com/chjlangzi/gophercloud"
 )
 
 // Get returns public data about a previously created QuotaSet.

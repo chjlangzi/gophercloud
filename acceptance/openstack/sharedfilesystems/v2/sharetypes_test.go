@@ -3,8 +3,8 @@ package v2
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/openstack/sharedfilesystems/v2/sharetypes"
+	"github.com/chjlangzi/gophercloud/acceptance/clients"
+	"github.com/chjlangzi/gophercloud/openstack/sharedfilesystems/v2/sharetypes"
 )
 
 func TestShareTypeCreateDestroy(t *testing.T) {

@@ -1,9 +1,9 @@
 package pools
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas_v2/monitors"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/chjlangzi/gophercloud"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/extensions/lbaas_v2/monitors"
+	"github.com/chjlangzi/gophercloud/pagination"
 )
 
 // SessionPersistence represents the session persistence feature of the load

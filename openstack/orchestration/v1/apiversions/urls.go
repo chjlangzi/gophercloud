@@ -1,6 +1,6 @@
 package apiversions
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/chjlangzi/gophercloud"
 
 func apiVersionsURL(c *gophercloud.ServiceClient) string {
 	return c.Endpoint

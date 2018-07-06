@@ -3,7 +3,7 @@ package webhooks
 import (
 	"net/url"
 
-	"github.com/gophercloud/gophercloud"
+	"github.com/chjlangzi/gophercloud"
 	"golang.org/x/crypto/openpgp/errors"
 )
 

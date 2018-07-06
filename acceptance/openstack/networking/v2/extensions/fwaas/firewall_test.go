@@ -5,11 +5,11 @@ package fwaas
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	layer3 "github.com/gophercloud/gophercloud/acceptance/openstack/networking/v2/extensions/layer3"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/fwaas/firewalls"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/fwaas/routerinsertion"
+	"github.com/chjlangzi/gophercloud/acceptance/clients"
+	layer3 "github.com/chjlangzi/gophercloud/acceptance/openstack/networking/v2/extensions/layer3"
+	"github.com/chjlangzi/gophercloud/acceptance/tools"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/extensions/fwaas/firewalls"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/extensions/fwaas/routerinsertion"
 )
 
 func TestFirewallList(t *testing.T) {
