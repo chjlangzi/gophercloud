@@ -1,4 +1,4 @@
-package networks
+package vpcs
 
 import (
 	"github.com/chjlangzi/gophercloud"
@@ -9,31 +9,31 @@ type commonResult struct {
 	gophercloud.Result
 }
 
-// Extract is a function that accepts a result and extracts a network resource.
-func (r commonResult) Extract() (*Network, error) {
-	var s Network
+// Extract is a function that accepts a result and extracts a vpc resource.
+func (r commonResult) Extract() (*Vpc, error) {
+	var s Vpc
 	err := r.ExtractInto(&s)
 	return &s, err
 }
 
 func (r commonResult) ExtractInto(v interface{}) error {
-	return r.Result.ExtractIntoStructPtr(v, "network")
+	return r.Result.ExtractIntoStructPtr(v, "vpc")
 }
 
 // CreateResult represents the result of a create operation. Call its Extract
-// method to interpret it as a Network.
+// method to interpret it as a vpc.
 type CreateResult struct {
 	commonResult
 }
 
 // GetResult represents the result of a get operation. Call its Extract
-// method to interpret it as a Network.
+// method to interpret it as a vpc.
 type GetResult struct {
 	commonResult
 }
 
 // UpdateResult represents the result of an update operation. Call its Extract
-// method to interpret it as a Network.
+// method to interpret it as a vpc.
 type UpdateResult struct {
 	commonResult
 }
@@ -44,52 +44,60 @@ type DeleteResult struct {
 	gophercloud.ErrResult
 }
 
-// Network represents, well, a network.
-type Network struct {
-	// UUID for the network
+type Router struct{
+	Id string `json:"id"`
+}
+
+// vpc represents, well, a vpc.
+type Vpc struct {
+	// UUID for the vpc
 	ID string `json:"id"`
 
-	// Human-readable name for the network. Might not be unique.
+	// Human-readable name for the vpc. Might not be unique.
 	Name string `json:"name"`
 
-	// The administrative state of network. If false (down), the network does not
-	// forward packets.
-	AdminStateUp bool `json:"admin_state_up"`
-
-	// Indicates whether network is currently operational. Possible values include
+	// Indicates whether vpc is currently operational. Possible values include
 	// `ACTIVE', `DOWN', `BUILD', or `ERROR'. Plug-ins might define additional
 	// values.
 	Status string `json:"status"`
 
-	// Subnets associated with this network.
-	Subnets []string `json:"subnets"`
+	// network_ids associated with this vpc.
+	NetworkIds []string `json:"network_ids"`
 
-	// TenantID is the project owner of the network.
+	// routers associated with this vpc.
+	Routers []Router `json:"routers"`
+
+	// TenantID is the project owner of the vpc.
 	TenantID string `json:"tenant_id"`
 
-	// ProjectID is the project owner of the network.
-	ProjectID string `json:"project_id"`
+	// description for the vpc
+	Description string `json:"description"`
 
-	// Specifies whether the network resource can be accessed by any tenant.
-	Shared bool `json:"shared"`
+	// createTime for the vpc
+	CreatedAt string `json:"created_at"`
 
-	// Availability zone hints groups network nodes that run services like DHCP, L3, FW, and others.
-	// Used to make network resources highly available.
-	AvailabilityZoneHints []string `json:"availability_zone_hints"`
+	// updateTime for the vpc
+	UpdatedAt string `json:"updated_at"`
+
+	// is_default for the vpc
+	IsDefault bool `json:"is_default"`
+
+	// cidr for the vpc
+	Cidr string `json:"cidr"`
 }
 
-// NetworkPage is the page returned by a pager when traversing over a
-// collection of networks.
-type NetworkPage struct {
+// vpcPage is the page returned by a pager when traversing over a
+// collection of vpcs.
+type VpcPage struct {
 	pagination.LinkedPageBase
 }
 
-// NextPageURL is invoked when a paginated collection of networks has reached
+// NextPageURL is invoked when a paginated collection of vpcs has reached
 // the end of a page and the pager seeks to traverse over a new one. In order
 // to do this, it needs to construct the next page's URL.
-func (r NetworkPage) NextPageURL() (string, error) {
+func (r VpcPage) NextPageURL() (string, error) {
 	var s struct {
-		Links []gophercloud.Link `json:"networks_links"`
+		Links []gophercloud.Link `json:"vpcs_links"`
 	}
 	err := r.ExtractInto(&s)
 	if err != nil {
@@ -98,21 +106,21 @@ func (r NetworkPage) NextPageURL() (string, error) {
 	return gophercloud.ExtractNextURL(s.Links)
 }
 
-// IsEmpty checks whether a NetworkPage struct is empty.
-func (r NetworkPage) IsEmpty() (bool, error) {
-	is, err := ExtractNetworks(r)
+// IsEmpty checks whether a vpcPage struct is empty.
+func (r VpcPage) IsEmpty() (bool, error) {
+	is, err := ExtractVpcs(r)
 	return len(is) == 0, err
 }
 
-// ExtractNetworks accepts a Page struct, specifically a NetworkPage struct,
-// and extracts the elements into a slice of Network structs. In other words,
+// ExtractVpcs accepts a Page struct, specifically a VpcPage struct,
+// and extracts the elements into a slice of vpc structs. In other words,
 // a generic collection is mapped into a relevant slice.
-func ExtractNetworks(r pagination.Page) ([]Network, error) {
-	var s []Network
-	err := ExtractNetworksInto(r, &s)
+func ExtractVpcs(r pagination.Page) ([]Vpc, error) {
+	var s []Vpc
+	err := ExtractVpcsInto(r, &s)
 	return s, err
 }
 
-func ExtractNetworksInto(r pagination.Page, v interface{}) error {
-	return r.(NetworkPage).Result.ExtractIntoSlicePtr(v, "vpcs")
+func ExtractVpcsInto(r pagination.Page, v interface{}) error {
+	return r.(VpcPage).Result.ExtractIntoSlicePtr(v, "vpcs")
 }

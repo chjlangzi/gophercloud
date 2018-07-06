@@ -62,4 +62,4 @@ Example to Delete a Network
 		panic(err)
 	}
 */
-package networks
+package vpcs

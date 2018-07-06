@@ -1,4 +1,4 @@
-package networks
+package vpcs
 
 import (
 	"github.com/chjlangzi/gophercloud"
@@ -13,19 +13,14 @@ type ListOptsBuilder interface {
 
 // ListOpts allows the filtering and sorting of paginated collections through
 // the API. Filtering is achieved by passing in struct field values that map to
-// the network attributes you want to see returned. SortKey allows you to sort
-// by a particular network attribute. SortDir sets the direction, and is either
+// the vpc attributes you want to see returned. SortKey allows you to sort
+// by a particular vpc attribute. SortDir sets the direction, and is either
 // `asc' or `desc'. Marker and Limit are used for pagination.
 type ListOpts struct {
 	Status       string `q:"status"`
 	Name         string `q:"name"`
-	AdminStateUp *bool  `q:"admin_state_up"`
 	TenantID     string `q:"tenant_id"`
-	ProjectID    string `q:"project_id"`
-	Shared       *bool  `q:"shared"`
 	ID           string `q:"id"`
-	Marker       string `q:"marker"`
-	Limit        int    `q:"limit"`
 	SortKey      string `q:"sort_key"`
 	SortDir      string `q:"sort_dir"`
 	Cidr         string `q:"cidr"`
@@ -34,14 +29,14 @@ type ListOpts struct {
 	Fields       []string `q:"fields"`
 }
 
-// ToNetworkListQuery formats a ListOpts into a query string.
+// ToVpcListQuery formats a ListOpts into a query string.
 func (opts ListOpts) ToNetworkListQuery() (string, error) {
 	q, err := gophercloud.BuildQueryString(opts)
 	return q.String(), err
 }
 
 // List returns a Pager which allows you to iterate over a collection of
-// networks. It accepts a ListOpts struct, which allows you to filter and sort
+// vpcs. It accepts a ListOpts struct, which allows you to filter and sort
 // the returned collection for greater efficiency.
 func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	url := listURL(c)
@@ -53,11 +48,11 @@ func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 		url += query
 	}
 	return pagination.NewPager(c, url, func(r pagination.PageResult) pagination.Page {
-		return NetworkPage{pagination.LinkedPageBase{PageResult: r}}
+		return VpcPage{pagination.LinkedPageBase{PageResult: r}}
 	})
 }
 
-// Get retrieves a specific network based on its unique ID.
+// Get retrieves a specific vpc based on its unique ID.
 func Get(c *gophercloud.ServiceClient, id string) (r GetResult) {
 	_, r.Err = c.Get(getURL(c, id), &r.Body, nil)
 	return
@@ -66,33 +61,33 @@ func Get(c *gophercloud.ServiceClient, id string) (r GetResult) {
 // CreateOptsBuilder allows extensions to add additional parameters to the
 // Create request.
 type CreateOptsBuilder interface {
-	ToNetworkCreateMap() (map[string]interface{}, error)
+	ToVpcCreateMap() (map[string]interface{}, error)
 }
 
-// CreateOpts represents options used to create a network.
+// CreateOpts represents options used to create a vpc.
 type CreateOpts struct {
-	AdminStateUp          *bool    `json:"admin_state_up,omitempty"`
+	Vpc                   string   `json:"vpc,omitempty"`
 	Name                  string   `json:"name,omitempty"`
-	Shared                *bool    `json:"shared,omitempty"`
 	TenantID              string   `json:"tenant_id,omitempty"`
-	ProjectID             string   `json:"project_id,omitempty"`
-	AvailabilityZoneHints []string `json:"availability_zone_hints,omitempty"`
+	Description           string   `json:"description,omitempty"`
+	Cidr                  string   `json:"cidr,omitempty"`
+	IsDefault             *bool    `json:"is_default,omitempty"`
 }
 
-// ToNetworkCreateMap builds a request body from CreateOpts.
-func (opts CreateOpts) ToNetworkCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "network")
+// ToVpcCreateMap builds a request body from CreateOpts.
+func (opts CreateOpts) ToVpcCreateMap() (map[string]interface{}, error) {
+	return gophercloud.BuildRequestBody(opts, "vpc")
 }
 
-// Create accepts a CreateOpts struct and creates a new network using the values
+// Create accepts a CreateOpts struct and creates a new vpc using the values
 // provided. This operation does not actually require a request body, i.e. the
 // CreateOpts struct argument can be empty.
 //
 // The tenant ID that is contained in the URI is the tenant that creates the
-// network. An admin user, however, has the option of specifying another tenant
+// vpc. An admin user, however, has the option of specifying another tenant
 // ID in the CreateOpts struct.
 func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
-	b, err := opts.ToNetworkCreateMap()
+	b, err := opts.ToVpcCreateMap()
 	if err != nil {
 		r.Err = err
 		return
@@ -104,42 +99,42 @@ func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResul
 // UpdateOptsBuilder allows extensions to add additional parameters to the
 // Update request.
 type UpdateOptsBuilder interface {
-	ToNetworkUpdateMap() (map[string]interface{}, error)
+	ToVpcUpdateMap() (map[string]interface{}, error)
 }
 
-// UpdateOpts represents options used to update a network.
+// UpdateOpts represents options used to update a vpc.
 type UpdateOpts struct {
-	AdminStateUp *bool  `json:"admin_state_up,omitempty"`
-	Name         string `json:"name,omitempty"`
-	Shared       *bool  `json:"shared,omitempty"`
+	Name         string  `json:"name,omitempty"`
+	Description  string  `json:"description,omitempty"`
+	Cidr         string  `json:"cidr,omitempty"`
 }
 
-// ToNetworkUpdateMap builds a request body from UpdateOpts.
-func (opts UpdateOpts) ToNetworkUpdateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "network")
+// ToVpcUpdateMap builds a request body from UpdateOpts.
+func (opts UpdateOpts) ToVpcUpdateMap() (map[string]interface{}, error) {
+	return gophercloud.BuildRequestBody(opts, "vpc")
 }
 
-// Update accepts a UpdateOpts struct and updates an existing network using the
+// Update accepts a UpdateOpts struct and updates an existing vpc using the
 // values provided. For more information, see the Create function.
-func Update(c *gophercloud.ServiceClient, networkID string, opts UpdateOptsBuilder) (r UpdateResult) {
-	b, err := opts.ToNetworkUpdateMap()
+func Update(c *gophercloud.ServiceClient, vpcID string, opts UpdateOptsBuilder) (r UpdateResult) {
+	b, err := opts.ToVpcUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = c.Put(updateURL(c, networkID), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = c.Put(updateURL(c, vpcID), b, &r.Body, &gophercloud.RequestOpts{
 		OkCodes: []int{200, 201},
 	})
 	return
 }
 
-// Delete accepts a unique ID and deletes the network associated with it.
-func Delete(c *gophercloud.ServiceClient, networkID string) (r DeleteResult) {
-	_, r.Err = c.Delete(deleteURL(c, networkID), nil)
+// Delete accepts a unique ID and deletes the vpc associated with it.
+func Delete(c *gophercloud.ServiceClient, vpcID string) (r DeleteResult) {
+	_, r.Err = c.Delete(deleteURL(c, vpcID), nil)
 	return
 }
 
-// IDFromName is a convenience function that returns a network's ID, given
+// IDFromName is a convenience function that returns a vpc's ID, given
 // its name.
 func IDFromName(client *gophercloud.ServiceClient, name string) (string, error) {
 	count := 0
@@ -149,7 +144,7 @@ func IDFromName(client *gophercloud.ServiceClient, name string) (string, error) 
 		return "", err
 	}
 
-	all, err := ExtractNetworks(pages)
+	all, err := ExtractVpcs(pages)
 	if err != nil {
 		return "", err
 	}
@@ -163,10 +158,10 @@ func IDFromName(client *gophercloud.ServiceClient, name string) (string, error) 
 
 	switch count {
 	case 0:
-		return "", gophercloud.ErrResourceNotFound{Name: name, ResourceType: "network"}
+		return "", gophercloud.ErrResourceNotFound{Name: name, ResourceType: "vpc"}
 	case 1:
 		return id, nil
 	default:
-		return "", gophercloud.ErrMultipleResourcesFound{Name: name, Count: count, ResourceType: "network"}
+		return "", gophercloud.ErrMultipleResourcesFound{Name: name, Count: count, ResourceType: "vpc"}
 	}
 }

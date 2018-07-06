@@ -1,4 +1,4 @@
-package networks
+package vpcs
 
 import "github.com/chjlangzi/gophercloud"
 

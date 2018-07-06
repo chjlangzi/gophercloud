@@ -1,103 +1,99 @@
 package testing
 
 import (
-	"github.com/chjlangzi/gophercloud/openstack/networking/v2/networks"
+	"github.com/chjlangzi/gophercloud/openstack/networking/v2/vpcs"
 )
 
 const ListResponse = `
 {
-    "networks": [
+    "vpcs": [
         {
             "status": "ACTIVE",
-            "subnets": [
+            "network_ids": [
                 "54d6f61d-db07-451c-9ab3-b9609b6b6f0b"
             ],
             "name": "public",
-            "admin_state_up": true,
             "tenant_id": "4fd44f30292945e481c7b8a0c8908869",
-            "shared": true,
             "id": "d32019d3-bc6e-4319-9c1d-6722fc136a22",
-            "provider:segmentation_id": 9876543210,
-            "provider:physical_network": null,
-            "provider:network_type": "local",
-            "router:external": true,
-            "port_security_enabled": true
+            "description": "Network1 description",
+            "created_at": "2018-04-23",
+            "is_default": false,
+            "cidr": "172.17.0.0/16",
+			"port_security_enabled": true
         },
         {
             "status": "ACTIVE",
-            "subnets": [
+            "network_ids": [
                 "08eae331-0402-425a-923c-34f7cfe39c1b"
             ],
             "name": "private",
-            "admin_state_up": true,
             "tenant_id": "26a7980765d0414dbc1fc1f88cdb7e6e",
-            "shared": false,
             "id": "db193ab3-96e3-4cb3-8fc5-05f4296d0324",
-            "provider:segmentation_id": 1234567890,
-            "provider:physical_network": null,
-            "provider:network_type": "local",
-            "router:external": false,
-            "port_security_enabled": false
+            "description": "Network2 description",
+            "created_at": "2018-05-23",
+            "is_default": true,
+            "cidr": "172.18.0.0/16",
+			"port_security_enabled": false
         }
     ]
 }`
 
 const GetResponse = `
 {
-    "network": {
-        "status": "ACTIVE",
-        "subnets": [
-            "54d6f61d-db07-451c-9ab3-b9609b6b6f0b"
-        ],
-        "name": "public",
-        "admin_state_up": true,
-        "tenant_id": "4fd44f30292945e481c7b8a0c8908869",
-        "shared": true,
-        "id": "d32019d3-bc6e-4319-9c1d-6722fc136a22",
-        "provider:segmentation_id": 9876543210,
-        "provider:physical_network": null,
-        "provider:network_type": "local",
-        "router:external": true,
-        "port_security_enabled": true
+    "vpc": {
+		"status": "ACTIVE",
+		"network_ids": [
+			"54d6f61d-db07-451c-9ab3-b9609b6b6f0b"
+		],
+		"name": "public",
+		"tenant_id": "4fd44f30292945e481c7b8a0c8908869",
+		"id": "d32019d3-bc6e-4319-9c1d-6722fc136a22",
+		"description": "Network1 description",
+		"created_at": "2018-04-23",
+		"is_default": false,
+		"cidr": "172.17.0.0/16",
+		"port_security_enabled": true
     }
 }`
 
 const CreateRequest = `
 {
-    "network": {
+    "vpc": {
         "name": "private",
-        "admin_state_up": true
+        "is_default": true
     }
 }`
 
 const CreateResponse = `
 {
-    "network": {
-        "status": "ACTIVE",
-        "subnets": ["08eae331-0402-425a-923c-34f7cfe39c1b"],
+    "vpc": {
+		"status": "ACTIVE",
+        "network_ids": [
+            "08eae331-0402-425a-923c-34f7cfe39c1b"
+        ],
         "name": "private",
-        "admin_state_up": true,
         "tenant_id": "26a7980765d0414dbc1fc1f88cdb7e6e",
-        "shared": false,
         "id": "db193ab3-96e3-4cb3-8fc5-05f4296d0324",
-        "provider:segmentation_id": 9876543210,
-        "provider:physical_network": null,
-        "provider:network_type": "local"
+        "description": "Network2 description",
+        "created_at": "2018-05-23",
+        "is_default": true,
+        "cidr": "172.18.0.0/16",
+		"port_security_enabled": false
     }
 }`
 
 const CreatePortSecurityRequest = `
 {
-    "network": {
+    "vpc": {
         "name": "private",
-        "admin_state_up": true,
+        "is_default": true,
         "port_security_enabled": false
     }
 }`
 
 const CreatePortSecurityResponse = `
 {
-    "network": {
+    "vpc": {
         "status": "ACTIVE",
         "subnets": ["08eae331-0402-425a-923c-34f7cfe39c1b"],
         "name": "private",
@@ -114,82 +110,86 @@ const CreatePortSecurityResponse = `
 
 const CreateOptionalFieldsRequest = `
 {
-  "network": {
+  "vpc": {
       "name": "public",
-      "admin_state_up": true,
-      "shared": true,
-      "tenant_id": "12345",
-      "availability_zone_hints": ["zone1", "zone2"]
+      "is_default": true,
+      "tenant_id": "12345"
   }
 }`
 
 const UpdateRequest = `
 {
-    "network": {
+    "vpc": {
         "name": "new_network_name",
-        "admin_state_up": false,
-        "shared": true
+        "description": "description abcd"
     }
 }`
 
 const UpdateResponse = `
 {
-    "network": {
-        "status": "ACTIVE",
-        "subnets": [],
-        "name": "new_network_name",
-        "admin_state_up": false,
-        "tenant_id": "4fd44f30292945e481c7b8a0c8908869",
-        "shared": true,
-        "id": "4e8e5957-649f-477b-9e5b-f1f75b21c03c",
-        "provider:segmentation_id": 1234567890,
-        "provider:physical_network": null,
-        "provider:network_type": "local"
+    "vpc": {
+		"status": "ACTIVE",
+		"network_ids": [
+			"08eae331-0402-425a-923c-34f7cfe39c1b"
+		],
+		"name": "new_network_name",
+		"tenant_id": "26a7980765d0414dbc1fc1f88cdb7e6e",
+		"id": "4e8e5957-649f-477b-9e5b-f1f75b21c03c",
+		"description": "description abcd",
+		"created_at": "2018-05-23",
+		"is_default": true,
+		"cidr": "172.18.0.0/16",
+		"port_security_enabled": false
     }
 }`
 
 const UpdatePortSecurityRequest = `
 {
-    "network": {
+    "vpc": {
         "port_security_enabled": false
     }
 }`
 
 const UpdatePortSecurityResponse = `
 {
-    "network": {
-        "status": "ACTIVE",
-        "subnets": ["08eae331-0402-425a-923c-34f7cfe39c1b"],
-        "name": "private",
-        "admin_state_up": true,
-        "tenant_id": "26a7980765d0414dbc1fc1f88cdb7e6e",
-        "shared": false,
-        "id": "4e8e5957-649f-477b-9e5b-f1f75b21c03c",
-        "provider:segmentation_id": 9876543210,
-        "provider:physical_network": null,
-        "provider:network_type": "local",
-        "port_security_enabled": false
+    "vpc": {
+    	"status": "ACTIVE",
+		"network_ids": [
+			"08eae331-0402-425a-923c-34f7cfe39c1b"
+		],
+		"name": "private",
+		"tenant_id": "26a7980765d0414dbc1fc1f88cdb7e6e",
+		"id": "4e8e5957-649f-477b-9e5b-f1f75b21c03c",
+		"description": "description abcd",
+		"created_at": "2018-05-23",
+		"is_default": true,
+		"cidr": "172.18.0.0/16",
+		"port_security_enabled": false
     }
 }`
 
-var Network1 = networks.Network{
+var Network1 = vpcs.Vpc{
 	Status:       "ACTIVE",
-	Subnets:      []string{"54d6f61d-db07-451c-9ab3-b9609b6b6f0b"},
+	NetworkIds:   []string{"54d6f61d-db07-451c-9ab3-b9609b6b6f0b"},
 	Name:         "public",
-	AdminStateUp: true,
 	TenantID:     "4fd44f30292945e481c7b8a0c8908869",
-	Shared:       true,
 	ID:           "d32019d3-bc6e-4319-9c1d-6722fc136a22",
+	Description:  "Network1 description",
+	CreatedAt:    "2018-04-23",
+	IsDefault:    false,
+	Cidr:         "172.17.0.0/16",
 }
 
-var Network2 = networks.Network{
+var Network2 = vpcs.Vpc{
 	Status:       "ACTIVE",
-	Subnets:      []string{"08eae331-0402-425a-923c-34f7cfe39c1b"},
+	NetworkIds:   []string{"08eae331-0402-425a-923c-34f7cfe39c1b"},
 	Name:         "private",
-	AdminStateUp: true,
 	TenantID:     "26a7980765d0414dbc1fc1f88cdb7e6e",
-	Shared:       false,
 	ID:           "db193ab3-96e3-4cb3-8fc5-05f4296d0324",
+	Description:  "Network2 description",
+	CreatedAt:    "2018-05-23",
+	IsDefault:    true,
+	Cidr:         "172.18.0.0/16",
 }
 
-var ExpectedNetworkSlice = []networks.Network{Network1, Network2}
+var ExpectedNetworkSlice = []vpcs.Vpc{Network1, Network2}
