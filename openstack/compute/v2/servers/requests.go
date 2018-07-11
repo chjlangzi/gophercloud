@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 
 	"github.com/chjlangzi/gophercloud"
-	"github.com/chjlangzi/gophercloud/openstack/compute/v2/flavors"
 	"github.com/chjlangzi/gophercloud/openstack/compute/v2/images"
 	"github.com/chjlangzi/gophercloud/pagination"
+	"github.com/chjlangzi/gophercloud/openstack/compute/v2/flavors"
 )
 
 // ListOptsBuilder allows extensions to add additional parameters to the
@@ -21,40 +21,73 @@ type ListOptsBuilder interface {
 // the server attributes you want to see returned. Marker and Limit are used
 // for pagination.
 type ListOpts struct {
-	// ChangesSince is a time/date stamp for when the server last changed status.
-	ChangesSince string `q:"changes-since"`
-
-	// Image is the name of the image in URL format.
-	Image string `q:"image"`
-
-	// Flavor is the name of the flavor in URL format.
-	Flavor string `q:"flavor"`
-
 	// Name of the server as a string; can be queried with regular expressions.
 	// Realize that ?name=bob returns both bob and bobb. If you need to match bob
 	// only, you can use a regular expression matching the syntax of the
 	// underlying database server implemented for Compute.
 	Name string `q:"name"`
 
-	// Status is the value of the status of the server so that you can filter on
-	// "ACTIVE" for example.
-	Status string `q:"status"`
+	// Image is the name/id of the image
+	Image string `q:"image"`
 
-	// Host is the name of the host as a string.
+	ConfigDrive *bool `q:"config_drive "`
+
+	// 用模板名称或 id 来筛选服务器
+	Flavor string `q:"flavor"`
+
+	//用 ipv4 的地址筛选云服务器
+	Ip string `q:"ip"`
+
+	//用云服务器的可用域来筛选云服务
+	AvailabilityZone string `q:"availability_zone"`
+
+	//根据计算节点的主机名来晒元云服务器， 只允许管理员操作
 	Host string `q:"host"`
 
-	// Marker is a UUID of the server at which you want to set a marker.
-	Marker string `q:"marker"`
+	//用云服务器主机名来过滤云服务。
+	Hostname string `q:"hostname"`
 
-	// Limit is an integer value for the limit of values to return.
-	Limit int `q:"limit"`
+	//用 ipv6 的地址来过滤云服务器
+	Ip6 string `q:"ip6"`
 
-	// AllTenants is a bool to show all tenants.
-	AllTenants bool `q:"all_tenants"`
+	//用密钥对名称筛选云服务器。
+	KeyName string `q:"key_name"`
 
-	// TenantID lists servers for a particular tenant.
-	// Setting "AllTenants = true" is required.
-	TenantID string `q:"tenant_id"`
+	//用标签列表来筛选云服务器，当云服务器 中含有标签列表中的所有标签时才会被返 回，布尔表达式为”t1”and”t2”，查询中的标 签必须用逗号隔开
+	Tags string `q:"tags"`
+
+	//用标签列表来筛选云服务器，当云服务器 含有标签列表中任意一个标签时才会被返 回，布尔表达式为”t1”or”t2”查询中的标签 必须用逗号隔开
+	TagsAny string `q:"tags-any"`
+
+	//用标签列表来筛选云服务器，当云服务器 不含此列表中所有标签时将被返回，布尔 表达式为not(“t1”and”t2”)，查询中的标签必 须用逗号隔开
+	NotTags string `q:"not-tags"`
+
+	//用标签列表来筛选云服务器，当云服务器
+	//不含标签列表中任何一个标签时将被返 回，布尔表达式为 not(“t1”or”t2”)，查询中 的标签必须用逗号隔开。
+	NotTagsAny string `q:"not-tags-any"`
+
+	//服务器创建多个服务器调用后返回的预定 id
+	ReservationId string `q:"reservation_id"`
+
+	//通过云服务器的 disk_config 设置来过滤云 服务器列表，有效值为：AUTO，MANUA
+	AutoDiskConfig string `q:"auto_disk_config"`
+
+	//通过云服务器的状态来过滤云服务器列 表，如：active
+	Status string `q:"status"`
+
+	//按照云服务器的属性进行排序，创建默认 属性。排序使用的键值仅限于：
+	// access_ip_v4 , access_ip_v6 , auto_disk_config , availability_zone , config_drive , created_at , display_description , display_name , host , hostname , image_ref , instance_type_id , kernel_id , key_name , launch_index , launched_at , locked_by , node , power_state , progress , project_id , ramdisk_id , root_device_name , task_state , terminated_at
+	//, updated_at , user_id  uuid , vm_state
+	SortKey string `q:"sort_key"`
+
+	//指定 all_tenants=1 时，可以列出所有项目 的所有势力，默认情况下只允许管理员用 户使用
+	AllTenants *bool `q:"all-tenants"`
+
+	//列出指定项目的云服务器，只允许管理员 使用，必须指定 all-tenants=1
+	Tenant string `q:"tenant"`
+
+	//列出所有已删除的云服务
+	Deleted *bool `q:"deleted"`
 }
 
 // ToServerListQuery formats a ListOpts into a query string.
@@ -89,14 +122,17 @@ type CreateOptsBuilder interface {
 type Network struct {
 	// UUID of a network to attach to the newly provisioned server.
 	// Required unless Port is provided.
-	UUID string
+	//from vpc/subnet/network_id
+	UUID string `json:"uuid"`
 
 	// Port of a neutron network to attach to the newly provisioned server.
 	// Required unless UUID is provided.
-	Port string
+	Port string `json:"port"`
 
 	// FixedIP specifies a fixed IPv4 address to be used on this network.
-	FixedIP string
+	FixedIP string `json:"fixed_ip"`
+
+	Tag string `json:"tag"`
 }
 
 // Personality is an array of files that are injected into the server at launch.
@@ -126,65 +162,86 @@ func (f *File) MarshalJSON() ([]byte, error) {
 	return json.Marshal(file)
 }
 
+type Bss struct{
+	//month,year
+	Period string `json:"period"`
+}
+
 // CreateOpts specifies server creation parameters.
 type CreateOpts struct {
 	// Name is the name to assign to the newly launched server.
 	Name string `json:"name" required:"true"`
 
-	// ImageRef [optional; required if ImageName is not provided] is the ID or
-	// full URL to the image that contains the server's OS and initial state.
-	// Also optional if using the boot-from-volume extension.
+	BssArgs Bss `json:"bss_args,omitempty"`
+
+	// 云服务器镜像的镜像的 uuid，如果直接 通过 volume 创建云服务器，这个参数 可以不需要，其他情况下必须是一个有 效的 uuid
 	ImageRef string `json:"imageRef"`
 
-	// ImageName [optional; required if ImageRef is not provided] is the name of
-	// the image that contains the server's OS and initial state.
-	// Also optional if using the boot-from-volume extension.
+	//ImageRef ,ImageName 二选一
 	ImageName string `json:"-"`
 
-	// FlavorRef [optional; required if FlavorName is not provided] is the ID or
-	// full URL to the flavor that describes the server's specs.
-	FlavorRef string `json:"flavorRef"`
+	//允许对实例的块设备
+	BlockDeviceMapping map[string]interface{} `json:"block_device_mapping,omitempty"`
 
-	// FlavorName [optional; required if FlavorRef is not provided] is the name of
-	// the flavor that describes the server's specs.
-	FlavorName string `json:"-"`
+	//云服务器镜像的镜像的 uuid
+	BlockDeviceMappingV2 string `json:"block_device_mapping_v2,omitempty"`
 
-	// SecurityGroups lists the names of the security groups to which this server
-	// should belong.
-	SecurityGroups []string `json:"-"`
-
-	// UserData contains configuration information or scripts to use upon launch.
-	// Create will base64-encode it for you, if it isn't already.
-	UserData []byte `json:"-"`
-
-	// AvailabilityZone in which to launch the server.
-	AvailabilityZone string `json:"availability_zone,omitempty"`
-
-	// Networks dictates how this server will be attached to available networks.
-	// By default, the server will be attached to all isolated networks for the
-	// tenant.
-	Networks []Network `json:"-"`
-
-	// Metadata contains key-value pairs (up to 255 bytes each) to attach to the
-	// server.
-	Metadata map[string]string `json:"metadata,omitempty"`
-
-	// Personality includes files to inject into the server at launch.
-	// Create will base64-encode file contents for you.
+	// 文件的路径，文本和大小，以便在启动 时注入云服务器，文件路径的数据的最 大大小为 255 字节。
+	// 最大限度是解码后 的字节数，而不是编码的数据
 	Personality Personality `json:"personality,omitempty"`
 
-	// ConfigDrive enables metadata injection through a configuration drive.
+	//指示配置驱动器是否允许元数据注入。
 	ConfigDrive *bool `json:"config_drive,omitempty"`
 
 	// AdminPass sets the root user password. If not set, a randomly-generated
 	// password will be created and returned in the response.
 	AdminPass string `json:"adminPass,omitempty"`
 
+	// SecurityGroups lists the names of the security groups to which this server
+	// should belong.
+	SecurityGroups []string `json:"-"`
+
+	// Networks dictates how this server will be attached to available networks.
+	// By default, the server will be attached to all isolated networks for the
+	// tenant.
+	Networks []Network `json:"-"`
+
 	// AccessIPv4 specifies an IPv4 address for the instance.
 	AccessIPv4 string `json:"accessIPv4,omitempty"`
 
 	// AccessIPv6 pecifies an IPv6 address for the instance.
 	AccessIPv6 string `json:"accessIPv6,omitempty"`
+
+	// 云服务器实例的模板，一个 id 或完整 的 url,FlavorId/FlavorName 二选一
+	FlavorId string `json:"flavor_id,omitempty"`
+
+	FlavorName string `json:"-"`
+
+	// 密钥对名称
+	KeyName string `json:"key_name,omitempty"`
+
+	// 启动云服务器的可用区域，当提供资源 时，要指定从哪个可用区域创建实例
+	AvailabilityZone string `json:"availability_zone,omitempty"`
+
+	//所需要的主机名称。
+	RequiredHosts string `json:"required_hosts"`
+
+	// UserData contains configuration information or scripts to use upon launch.
+	// Create will base64-encode it for you, if it isn't already.
+	UserData []byte `json:"-"`
+
+	//标签列表，有如下限制： 一种 unicode 的二进制数据传，不超过 60 个字符；非空；不允许出现“/”；不 允许出现“，”；所有其他的字符都可以
+	//在标签中使用；每个云服务器可以有多 达 50 个标签
+	Tags []string `json:"tags,omitempty"`
+
+	//控制在创建，重建或者调整云服务器 时，如何分盘。一个云服务器继承镜像 中获取的 diskconfig 值，
+	// 一个镜像继承 从度武器创建的服务器上的 diskconfig 值。
+	// 如果需要覆盖继承的值，需要在创 建，重建或者调整服务器的 api 请求中 饱含该参数
+	AutoDiskConfig string `json:"auto_disk_config,omitempty"`
+
+	// Metadata contains key-value pairs (up to 255 bytes each) to attach to the
+	// server.
+	Metadata map[string]string `json:"metadata,omitempty"`
 
 	// ServiceClient will allow calls to be made to retrieve an image or
 	// flavor ID by name.
@@ -254,7 +311,7 @@ func (opts CreateOpts) ToServerCreateMap() (map[string]interface{}, error) {
 	}
 
 	// If FlavorRef isn't provided, use FlavorName to ascertain the flavor ID.
-	if opts.FlavorRef == "" {
+	if opts.FlavorId == "" {
 		if opts.FlavorName == "" {
 			err := ErrNeitherFlavorIDNorFlavorNameProvided{}
 			err.Argument = "FlavorRef/FlavorName"
@@ -270,6 +327,8 @@ func (opts CreateOpts) ToServerCreateMap() (map[string]interface{}, error) {
 			return nil, err
 		}
 		b["flavorRef"] = flavorID
+	}else{
+		b["flavorRef"] = opts.FlavorId
 	}
 
 	return map[string]interface{}{"server": b}, nil
@@ -326,6 +385,11 @@ type UpdateOpts struct {
 
 	// AccessIPv6 provides a new IPv6 address for the instance.
 	AccessIPv6 string `json:"accessIPv6,omitempty"`
+
+	//通过云服务器的 disk_config 设置来过滤云 服务器列表，有效值为：AUTO，MANUAL
+	OS_DCF_diskConfig string  `json:"OS-DCF:diskConfig,omitempty"`
+
+	Description string `json:"description,omitempty"`
 }
 
 // ToServerUpdateMap formats an UpdateOpts structure into a request body.

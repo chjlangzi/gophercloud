@@ -50,10 +50,6 @@ type CreateOpts struct {
 	// Only administrative users can specify a tenant UUID other than their own.
 	TenantID string `json:"tenant_id,omitempty"`
 
-	// ProjectID is the UUID of the project who owns the Group.
-	// Only administrative users can specify a tenant UUID other than their own.
-	ProjectID string `json:"project_id,omitempty"`
-
 	// Describes the security group.
 	Description string `json:"description,omitempty"`
 }

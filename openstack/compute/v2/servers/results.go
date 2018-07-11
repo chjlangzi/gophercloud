@@ -160,18 +160,84 @@ func (r RescueResult) Extract() (string, error) {
 
 // Server represents a server/instance in the OpenStack cloud.
 type Server struct {
+	//云服务器的任务状态
+	OS_EXT_STS_task_state string `json:"OS-EXT-STS:task_state"`
+
+	//云服务器状态
+	OS_EXT_STS_vm_state string `json:"OS-EXT-STS:vm_state"`
+
+	//实例的电源状态，改参数是枚举的 int 类型：0: NOSTATE 1: RUNNING 3: PAUSED 4: SHUTDOWN 6: CRASHED 7: SUSPENDED
+	OS_EXT_STS_power_state int `json:"OS-EXT-STS:power_state"`
+
+	//实例名称，api 从实例名称模板生成 实例名。只出现在对管理用户的响 应中。
+	OS_EXT_SRV_ATTR_instance_name string `json:"OS-EXT-SRV-ATTR:instance_name"`
+
+	//Hypervisor 主机名，由 nova virt 驱动 程序提供。只出现在对管理员用户 的响应中
+
+	OS_EXT_SRV_ATTR_hypervisor_hostname string `json:"OS-EXT-SRV-ATTR:hypervisor_hostname"`
+
+	//该实例锁运行的主机名称，只出现 在对管理用户的响应中
+	OS_EXT_SRV_ATTR_host string `json:"OS-EXT-SRV-ATTR:host"`
+
+	//可用区域名称。
+	OS_EXT_AZ_availability_zone string `json:"OS-EXT-AZ:availability_zone"`
+
+	//磁盘配置，该值为： AUTO。 Api 用一个区分大小的目标磁 盘来构建服务器，会自动调整文件 系统以使用整个分区。
+	// MANUAL。Api 通过使用源镜像中的 分区方案和文件系统来构建云服务 器，如果目标模板磁盘更大，择 api 不会对生育的磁盘空间进行分区
+	OS_DCF_diskConfig string `json:"OS-DCF:diskConfig"`
+
+	//如果给云服务器加了卷，则显示
+	os_extendedvolumes_volumes_attached []volume_attached `json:"os-extendedvolumes:volumes_attached"`
+
+	//服务器的启动时间和日期，日期和 时间戳格式为 ISO 8601
+	OS_SRV_USG_launched_at string `json:"OS-SRV-USG:launched_at"`
+
+	//云服务器被删除的时间和日期
+	OS_SRV_USG_terminated_at string `json:"OS-SRV-USG:terminated_at"`
+
+	// Addresses includes a list of all IP addresses assigned to the server,
+	// keyed by pool.
+	Addresses map[string]interface{} `json:"addresses"`
+
+	// Image refers to a JSON object, which itself indicates the OS image used to
+	// deploy the server.
+	Image map[string]interface{} `json:"-"`
+
+	// Flavor refers to a JSON object, which itself indicates the hardware
+	// configuration of the deployed server.
+	Flavor map[string]interface{} `json:"flavor"`
+
 	// ID uniquely identifies this server amongst all other servers,
 	// including those not accessible to the current tenant.
 	ID string `json:"id"`
 
-	// TenantID identifies the tenant owning this server resource.
-	TenantID string `json:"tenant_id"`
+	// SecurityGroups includes the security groups that this instance has applied
+	// to it.
+	SecurityGroups []map[string]interface{} `json:"security_groups"`
 
 	// UserID uniquely identifies the user account owning the tenant.
 	UserID string `json:"user_id"`
 
-	// Name contains the human-readable name for the server.
+	// 云服务器主机名
 	Name string `json:"name"`
+
+	// 云服务器主机名
+	Hostname string `json:"hostname"`
+
+	// AccessIPv4 and AccessIPv6 contain the IP addresses of the server,
+	// suitable for remote access for administration.
+	AccessIPv4 string `json:"accessIPv4"`
+	AccessIPv6 string `json:"accessIPv6"`
+
+	// Progress ranges from 0..100.
+	// A request made against the server completes only once Progress reaches 100.
+	Progress int `json:"progress"`
+
+	// Metadata includes a list of all user-specified key-value pairs attached
+	// to the server.
+	Metadata map[string]string `json:"metadata"`
+
+	CanLiveResize string `json:"can_live_resize"`
 
 	// Updated and Created contain ISO-8601 timestamps of when the state of the
 	// server last changed, and when it was created.
@@ -185,50 +251,16 @@ type Server struct {
 	// such as IN_PROGRESS or ACTIVE.
 	Status string `json:"status"`
 
-	// Progress ranges from 0..100.
-	// A request made against the server completes only once Progress reaches 100.
-	Progress int `json:"progress"`
-
-	// AccessIPv4 and AccessIPv6 contain the IP addresses of the server,
-	// suitable for remote access for administration.
-	AccessIPv4 string `json:"accessIPv4"`
-	AccessIPv6 string `json:"accessIPv6"`
-
-	// Image refers to a JSON object, which itself indicates the OS image used to
-	// deploy the server.
-	Image map[string]interface{} `json:"-"`
-
-	// Flavor refers to a JSON object, which itself indicates the hardware
-	// configuration of the deployed server.
-	Flavor map[string]interface{} `json:"flavor"`
-
-	// Addresses includes a list of all IP addresses assigned to the server,
-	// keyed by pool.
-	Addresses map[string]interface{} `json:"addresses"`
-
-	// Metadata includes a list of all user-specified key-value pairs attached
-	// to the server.
-	Metadata map[string]string `json:"metadata"`
-
-	// Links includes HTTP references to the itself, useful for passing along to
-	// other APIs that might want a server reference.
-	Links []interface{} `json:"links"`
-
 	// KeyName indicates which public key was injected into the server on launch.
 	KeyName string `json:"key_name"`
 
-	// AdminPass will generally be empty ("").  However, it will contain the
-	// administrative password chosen when provisioning a new server without a
-	// set AdminPass setting in the first place.
-	// Note that this is the ONLY time this field will be valid.
-	AdminPass string `json:"adminPass"`
+	// 云服务器项目 id
+	TenantId  string `json:"tenant_id"`
+}
 
-	// SecurityGroups includes the security groups that this instance has applied
-	// to it.
-	SecurityGroups []map[string]interface{} `json:"security_groups"`
-
-	// Fault contains failure information about a server.
-	Fault Fault `json:"fault"`
+type volume_attached struct{
+	id []string
+	delete_on_termination *bool
 }
 
 type Fault struct {
