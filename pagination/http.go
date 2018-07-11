@@ -8,6 +8,8 @@ import (
 	"strings"
 
 	"github.com/chjlangzi/gophercloud"
+
+	"github.com/kataras/golog"
 )
 
 // PageResult stores the HTTP response that returned the current page of results.
@@ -26,6 +28,8 @@ func PageResultFrom(resp *http.Response) (PageResult, error) {
 	if err != nil {
 		return PageResult{}, err
 	}
+
+	golog.Debugf(">>>iaas response>>>", string(rawBody))
 
 	if strings.HasPrefix(resp.Header.Get("Content-Type"), "application/json") {
 		err = json.Unmarshal(rawBody, &parsedBody)

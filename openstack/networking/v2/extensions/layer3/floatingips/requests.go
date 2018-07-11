@@ -57,6 +57,8 @@ type CreateOpts struct {
 	SubnetID          string `json:"subnet_id,omitempty"`
 	TenantID          string `json:"tenant_id,omitempty"`
 	ProjectID         string `json:"project_id,omitempty"`
+	IspID			  string `json:"isp_id,omitempty"`
+	Bandwidth		  int32 `json:"bandwidth,omitempty"`
 }
 
 // ToFloatingIPCreateMap allows CreateOpts to satisfy the CreateOptsBuilder
@@ -117,7 +119,17 @@ type UpdateOptsBuilder interface {
 // ID. To disassociate the floating IP from all ports, provide an empty string.
 type UpdateOpts struct {
 	PortID *string `json:"port_id"`
+	Action Action `json:"action"`
+	AddressId string `json:"address_id"`
+	IpId string `json:"ip_id"`
+	Target string `json:"target"`
 }
+
+type Action string
+const (
+	ActionAssociateLb Action = "associate_lb"
+	ActionDisassociate Action = "disassociate"
+)
 
 // ToFloatingIPUpdateMap allows UpdateOpts to satisfy the UpdateOptsBuilder
 // interface

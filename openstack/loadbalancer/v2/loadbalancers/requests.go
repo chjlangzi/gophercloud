@@ -97,6 +97,13 @@ type CreateOpts struct {
 
 	// The name of the provider.
 	Provider string `json:"provider,omitempty"`
+
+	Layer int32 `json:"layer",required:"true"`
+
+	//EXTERNAL or INTERNAL
+	Type string `json:"type,omitempty"`
+
+	VpcId string `json:"vpc_id,omitempty"`
 }
 
 // ToLoadBalancerCreateMap builds a request body from CreateOpts.

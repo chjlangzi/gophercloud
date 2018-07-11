@@ -2,7 +2,6 @@ package loadbalancers
 
 import (
 	"github.com/chjlangzi/gophercloud"
-	"github.com/chjlangzi/gophercloud/openstack/loadbalancer/v2/listeners"
 	"github.com/chjlangzi/gophercloud/pagination"
 )
 
@@ -50,7 +49,7 @@ type LoadBalancer struct {
 	Provider string `json:"provider"`
 
 	// Listeners are the listeners related to this Loadbalancer.
-	Listeners []listeners.Listener `json:"listeners"`
+	Listeners []string `json:"listeners"`
 }
 
 // StatusTree represents the status of a loadbalancer.
